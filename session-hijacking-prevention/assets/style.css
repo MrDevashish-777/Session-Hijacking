@@ -1,0 +1,52 @@
+/* Basic professional, responsive CSS */
+:root {
+  --bg: #0b1220;
+  --card: #121a2a;
+  --text: #e5ecff;
+  --muted: #a6b0cf;
+  --primary: #4f9cff;
+  --danger: #ff5c7a;
+  --success: #3ecf8e;
+  --warning: #ffc857;
+  --border: #22304a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 70% -20%, #17305b, #0b1220 60%);
+  color: var(--text);
+}
+.container { max-width: 960px; margin: 0 auto; padding: 24px; }
+header h1 { margin: 0 0 12px; font-weight: 700; letter-spacing: .2px; }
+nav { margin: 8px 0 24px; }
+nav a { color: var(--primary); text-decoration: none; margin-right: 12px; }
+nav a:hover { text-decoration: underline; }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.card.warning { border-color: #7a2e36; background: linear-gradient(180deg, rgba(122,46,54,.25), rgba(18,26,42,1)); }
+.info h2 { margin-top: 28px; }
+
+label { display: block; margin: 10px 0; font-weight: 600; }
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border);
+  background: #0f1626; color: var(--text); outline: none;
+}
+input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,156,255,.2); }
+
+.btn { appearance: none; border: none; border-radius: 10px; padding: 10px 16px; cursor: pointer; background: #1b2640; color: var(--text); }
+.btn:hover { filter: brightness(1.1); }
+.btn.primary { background: linear-gradient(135deg, #3f8cff, #4f9cff); color: #0b1220; font-weight: 700; }
+.btn.danger { background: linear-gradient(135deg, #ff5c7a, #ff7a90); color: #0b1220; font-weight: 700; }
+
+.alert { padding: 12px 14px; border-radius: 10px; margin: 10px 0; }
+.alert.error { background: rgba(255,92,122,.15); border: 1px solid #7a2e36; }
+.alert.success { background: rgba(62,207,142,.15); border: 1px solid #1e6b4e; }
+.alert.info { background: rgba(79,156,255,.15); border: 1px solid #234a86; }
+
+ul { padding-left: 20px; }
+code { background: #111a2b; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); }
+
+@media (max-width: 600px) {
+  .container { padding: 16px; }
+  nav a { display: inline-block; margin-bottom: 6px; }
+}
