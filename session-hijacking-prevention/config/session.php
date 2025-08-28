@@ -54,17 +54,17 @@ function enforce_session_security(): void {
     $now = time();
     if (!isset($_SESSION['fingerprint']) || $_SESSION['fingerprint'] !== fingerprint()) {
         logout();
-        header('Location: /session-hijacking-prevention/auth/login.php?m=session_reset');
+        header('Location: /Session-Hijacking/session-hijacking-prevention/auth/login.php?m=session_reset');
         exit;
     }
     if (isset($_SESSION['last_activity']) && ($now - (int)$_SESSION['last_activity']) > IDLE_TIMEOUT) {
         logout();
-        header('Location: /session-hijacking-prevention/auth/login.php?m=timeout');
+        header('Location: /Session-Hijacking/session-hijacking-prevention/auth/login.php?m=timeout');
         exit;
     }
     if (isset($_SESSION['created_at']) && ($now - (int)$_SESSION['created_at']) > ABSOLUTE_TIMEOUT) {
         logout();
-        header('Location: /session-hijacking-prevention/auth/login.php?m=expired');
+        header('Location: /Session-Hijacking/session-hijacking-prevention/auth/login.php?m=expired');
         exit;
     }
     $_SESSION['last_activity'] = $now;
@@ -91,7 +91,7 @@ function require_login(): void {
     secure_session_start();
     establish_session_context();
     if (!is_logged_in()) {
-        header('Location: /session-hijacking-prevention/auth/login.php');
+        header('Location: /Session-Hijacking/session-hijacking-prevention/auth/login.php');
         exit;
     }
     enforce_session_security();

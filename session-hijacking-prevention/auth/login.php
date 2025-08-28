@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch();
             if ($user && password_verify($password, $user['password_hash'])) {
                 login_user((int)$user['id'], $user['username']);
-                header('Location: /session-hijacking-prevention/dashboard/index.php');
+                header('Location: /Session-Hijacking/session-hijacking-prevention/dashboard/index.php');
                 exit;
             } else {
                 $errors[] = 'Invalid credentials.';

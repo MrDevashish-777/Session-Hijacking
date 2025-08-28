@@ -10,7 +10,7 @@ secure_session_start();
 $realSid = session_id();
 $maskedSid = substr($realSid, 0, 6) . str_repeat('•', max(0, strlen($realSid) - 10)) . substr($realSid, -4);
 $fakeLeakSid = bin2hex(random_bytes(8)); // Do NOT leak the real SID
-$attackerUrl = '/session-hijacking-prevention/simulation/steal.php?sid=' . urlencode($fakeLeakSid);
+$attackerUrl = '/Session-Hijacking/session-hijacking-prevention/simulation/steal.php?sid=' . urlencode($fakeLeakSid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
