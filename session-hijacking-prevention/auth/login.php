@@ -23,8 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $pdo = get_pdo();
-            $stmt = $pdo->prepare('SELECT id, username, email, password_hash FROM users WHERE username = :id OR email = :id LIMIT 1');
-            $stmt->execute([':id' => $identifier]);
+            $field = filter_var($identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+            $sql = "SELECT id, username, email, password_hash FROM users WHERE $field = :val LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':val', $identifier, PDO::PARAM_STR);
+            $stmt->execute();
             $user = $stmt->fetch();
             if ($user && password_verify($password, $user['password_hash'])) {
                 login_user((int)$user['id'], $user['username']);
@@ -33,8 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $errors[] = 'Invalid credentials.';
             }
+        } catch (PDOException $e) {
+            error_log('[LOGIN][PDO] ' . $e->getMessage());
+            if (getenv('APP_DEBUG') === '1') {
+                $errors[] = 'DEBUG: ' . $e->getMessage();
+            } else {
+                $errors[] = 'Login failed. Please try again.';
+            }
         } catch (Throwable $e) {
-            $errors[] = 'Login failed. Please try again.';
+            error_log('[LOGIN] ' . $e->getMessage());
+            if (getenv('APP_DEBUG') === '1') {
+                $errors[] = 'DEBUG: ' . $e->getMessage();
+            } else {
+                $errors[] = 'Login failed. Please try again.';
+            }
         }
     }
 }
