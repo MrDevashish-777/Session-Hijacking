@@ -5,6 +5,8 @@ require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../prevention/csrf_token.php';
 
 secure_session_start();
+// TEMP: enable inline debug to surface the exact error during login
+putenv('APP_DEBUG=1');
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,10 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo = get_pdo();
             $field = filter_var($identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-            $sql = "SELECT id, username, email, password_hash FROM users WHERE $field = :val LIMIT 1";
+            $sql = "SELECT id, username, email, password_hash FROM users WHERE $field = ? LIMIT 1";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':val', $identifier, PDO::PARAM_STR);
-            $stmt->execute();
+            $stmt->execute([$identifier]);
             $user = $stmt->fetch();
             if ($user && password_verify($password, $user['password_hash'])) {
                 login_user((int)$user['id'], $user['username']);
